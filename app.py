@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request from datetime import datetime, timezone, timedelta
 from datetime import datetime
 from functools import wraps
 from secrets import compare_digest
@@ -14,7 +14,7 @@ def home():
 browser = request.user_agent.browser or "Неизвестно"
 
 visitors.append(
-    f"Дата: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')} | "
+    f"Дата: (datetime.now(timezone.utc) + timedelta(hours=5)).strftime("%d.%m.%Y %H:%M:%S") | "
     f"Устройство: {device} | Браузер: {browser}"
 )
         return "<h1>Спасибо! Посещение зарегистрировано!</h1>"
