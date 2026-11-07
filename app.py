@@ -14,14 +14,48 @@ def home():
         return "<h1>Спасибо! Посещение зарегистрировано!</h1>"
 
     return """
-    <h1>Мой сайт</h1>
-    <p>Нажимая кнопку, вы соглашаетесь
-    зарегистрировать время посещения.</p>
-    <form method="POST">
-    <button type="submit">Согласиться</button>
-    </form>
-    """
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GAFUR</title>
+<style>
+body {
+    background: black;
+    color: #39ff14;
+    font-family: Arial;
+    text-align: center;
+    padding-top: 100px;
+}
+h1 {
+    font-size: 65px;
+    text-shadow: 0 0 10px #39ff14,
+                 0 0 30px #39ff14,
+                 0 0 60px #39ff14;
+}
+p {
+    color: white;
+}
+button {
+    background: #39ff14;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+</style>
+</head>
+<body>
+<h1>GAFUR</h1>
+<p>Добро пожаловать на мой сайт!</p>
+<form method="POST">
+<button type="submit">Согласиться</button>
+</form>
+</body>
+</html>
+"""
 @app.route("/admin")
 def admin():
     auth = request.authorization
