@@ -10,52 +10,39 @@ visitors = []
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        visitors.append(datetime.now().strftime("%d.%m.%Y %H:%M:%S"))
+        device = request.user_agent.platform or "Неизвестно"
+browser = request.user_agent.browser or "Неизвестно"
+
+visitors.append(
+    f"Дата: {datetime.now().strftime('%d.%m.%Y %H:%M:%S')} | "
+    f"Устройство: {device} | Браузер: {browser}"
+)
         return "<h1>Спасибо! Посещение зарегистрировано!</h1>"
 
     return """
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GAFUR</title>
 <style>
 body {
     background: black;
     color: #39ff14;
     font-family: Arial;
-    text-align: center;
-    padding-top: 100px;
+    padding: 20px;
 }
 h1 {
-    font-size: 65px;
-    text-shadow: 0 0 10px #39ff14,
-                 0 0 30px #39ff14,
-                 0 0 60px #39ff14;
+    font-size: 35px;
+    text-shadow: 0 0 15px #39ff14;
 }
-p {
-    color: white;
-}
-button {
-    background: #39ff14;
-    color: black;
-    border: none;
-    padding: 15px 30px;
+div {
+    font-size: 22px;
+    margin: 15px 0;
+    padding: 12px;
+    border: 1px solid #39ff14;
     border-radius: 10px;
-    font-size: 18px;
 }
 </style>
-</head>
-<body>
-<h1>GAFUR</h1>
-<p>Добро пожаловать на мой сайт!</p>
-<form method="POST">
-<button type="submit">Согласиться</button>
-</form>
-</body>
-</html>
-"""
+<h1>GAFUR ADMIN</h1>
+""" + "".join(
+    "<div>" + escape(v) + "</div>" for v in visitors
+)
 @app.route("/admin")
 def admin():
     auth = request.authorization
@@ -71,7 +58,7 @@ def admin():
             "WWW-Authenticate": 'Basic realm="Admin"'
         }
 
-    return "<pre>" + "\n".join(visitors) + "</pre>"
+    from markupsafe import escape
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",
